@@ -18,9 +18,13 @@ async function main() {
   console.log(
     ` Account Factory deployed to ${AF.target}`
   );
+  const PA = await hre.ethers.deployContract("Paymaster");
 
+  await PA.waitForDeployment();
 
-  
+  console.log(
+    ` Paymaster deployed to ${PA.target}`
+  );
 }
 
 main().catch((error) => {
