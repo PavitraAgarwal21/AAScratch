@@ -23,7 +23,7 @@ const sender = hre.ethers.getCreateAddress( {
 const AccountFactory = await hre.ethers.getContractFactory("AccountFactory");
 const [signer0 , signer1 ] = await hre.ethers.getSigners() ;
 const address0 = await signer0.getAddress() ;
-const initCode = "0x" ;
+const initCode = "0x";
 // FACTORY_ADDRESS +  AccountFactory.interface.encodeFunctionData("createAccount" , [address0]).slice(2) // with argument owner of the smart account 
 const Account = await hre.ethers.getContractFactory("Account");
 // call data what is happen to the smart account onwards 
@@ -42,8 +42,13 @@ const userOp = {
      maxFeePerGas : hre.ethers.parseUnits("10", "gwei") ,
      maxPriorityFeePerGas: hre.ethers.parseUnits("5", "gwei") ,
      paymasterAndData : Paymaster ,
-     signature : signer0.signMessage(hre.ethers.getBytes(hre.ethers.id("wee"))) ,
+     signature : "0x" ,
 }
+
+//signing the userops data ; 
+const userOpHash = await entryPoint.getUserOpHash(userOp) ;
+sig = signer0.signMessage(hre.ethers.getBytes(userOpHash));
+userOp.signature = sig ;
 
 const tx = await entryPoint.handleOps([userOp] , address0) ;
 const receipt = await tx.wait();

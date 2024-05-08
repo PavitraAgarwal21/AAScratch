@@ -12,11 +12,11 @@ contract Account is IAccount {
     constructor (address _owner) {
         owner = _owner ;
     }
-    function validateUserOp(UserOperation calldata userOp , bytes32 , uint256 )
+    function validateUserOp(UserOperation calldata userOp , bytes32 userOpHash, uint256 )
     external  view returns (uint256 validationData) {
         // return  0; //initialiy we only set that all the one userops is valid 
         // changing this to only the valid signatute from the the onwer is able to validateUserop 
-        address recovered = ECDSA.recover(ECDSA.toEthSignedMessageHash(keccak256("wee")), userOp.signature); // hash we have to generate the from the message 
+        address recovered = ECDSA.recover(ECDSA.toEthSignedMessageHash(userOpHash), userOp.signature); // hash we have to generate the from the message 
         return recovered == owner ? 0 : 1 ;
     }
     function execute() external  {
