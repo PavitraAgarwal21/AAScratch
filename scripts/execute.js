@@ -23,12 +23,13 @@ const sender = hre.ethers.getCreateAddress( {
 const AccountFactory = await hre.ethers.getContractFactory("AccountFactory");
 const [signer0] = await hre.ethers.getSigners() ;
 const address0 = await signer0.getAddress() ;
-const initCode = FACTORY_ADDRESS +   AccountFactory.interface.encodeFunctionData("createAccount" , [address0]).slice(2) // with argument owner of the smart account 
+const initCode = "0x" ;
+//  FACTORY_ADDRESS +   AccountFactory.interface.encodeFunctionData("createAccount" , [address0]).slice(2) // with argument owner of the smart account 
 const Account = await hre.ethers.getContractFactory("Account");
 // call data what is happen to the smart account onwards 
-await entryPoint.depositTo(sender , {
-    value : hre.ethers.parseEther("100"),
-}); // on behalf of our smart account 
+// await entryPoint.depositTo(sender , {
+//     value : hre.ethers.parseEther("100"),
+// }); // on behalf of our smart account 
 console.log(`sender address is ${sender}`);
 const userOp = {
      sender,
