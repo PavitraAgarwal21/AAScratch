@@ -21,10 +21,10 @@ const sender = hre.ethers.getCreateAddress( {
 // here we want to deploy the contract so the fucntion is the createAccount which is encoded in the init code  
 //first we get the fafctory account 
 const AccountFactory = await hre.ethers.getContractFactory("AccountFactory");
-const [signer0] = await hre.ethers.getSigners() ;
+const [signer0 , signer1 ] = await hre.ethers.getSigners() ;
 const address0 = await signer0.getAddress() ;
 const initCode = "0x" ;
-// FACTORY_ADDRESS +   AccountFactory.interface.encodeFunctionData("createAccount" , [address0]).slice(2) // with argument owner of the smart account 
+// FACTORY_ADDRESS +  AccountFactory.interface.encodeFunctionData("createAccount" , [address0]).slice(2) // with argument owner of the smart account 
 const Account = await hre.ethers.getContractFactory("Account");
 // call data what is happen to the smart account onwards 
 // await entryPoint.depositTo(Paymaster , {
@@ -36,18 +36,19 @@ const userOp = {
      nonce : await entryPoint.getNonce(sender,0) , // nonce fro the particular user operation 
      initCode,
      callData : Account.interface.encodeFunctionData("execute"),
-     callGasLimit:200_000,
-     verificationGasLimit:200_000,
-     preVerificationGas:50_000,
+     callGasLimit:500_000,
+     verificationGasLimit:500_000,
+     preVerificationGas: 100_000,
      maxFeePerGas : hre.ethers.parseUnits("10", "gwei") ,
      maxPriorityFeePerGas: hre.ethers.parseUnits("5", "gwei") ,
      paymasterAndData : Paymaster ,
-     signature : "0x" ,
+     signature : signer0.signMessage(hre.ethers.getBytes(hre.ethers.id("wee"))) ,
 }
 
 const tx = await entryPoint.handleOps([userOp] , address0) ;
-const receipt = await tx.wait() ;
+const receipt = await tx.wait();
 console.log(receipt) ;
+
 }
 
 main().catch((error) => {
