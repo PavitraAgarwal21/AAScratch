@@ -2,12 +2,9 @@
 pragma solidity ^0.8.9;
 import "@account-abstraction/contracts/core/EntryPoint.sol";
 import "@account-abstraction/contracts/interfaces/IAccount.sol";
-
-
 contract Account is IAccount {
-    
-    uint count = 0 ;
-    address owner ;
+    uint256 public  count = 0 ;
+    address public  owner ;
     constructor (address _owner) {
         owner = _owner ;
     }
@@ -18,11 +15,8 @@ contract Account is IAccount {
     function execute() external  {
         count += 1 ;
     }
-
 }
-
 contract AccountFactory {
-
     function createAccount(address owner ) external returns (address) {
         Account acc = new Account(owner) ;
         return address(acc) ;
