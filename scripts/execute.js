@@ -11,7 +11,7 @@ async function main() {
 // we have to determine the address of the smart account 
 // as we are using the Create == (deployer , nonce) // hence the deployer here is the account factory 
 
-e
+
 // creating the init code 
 // init code  = first 20 bytes is the address of the account factory + encoded fucniton ddata which we want to call at the start 
 // here we want to deploy the contract so the fucntion is the createAccount which is encoded in the init code  
